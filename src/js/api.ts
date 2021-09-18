@@ -1,20 +1,26 @@
 interface IConstructor {
-  root: string,
-  query: string,
-  loaderSelector: string,
-  onResolved: <T>(data:Array<T>) => void,
-  onRejected: () => void
+  root: string;
+  query: string;
+  loaderSelector: string;
+  onResolved: <T>(data: Array<T>) => void;
+  onRejected: () => void;
 }
 
 export default class ApiService {
-  root: string
-  query: string
-  onResolved: <T>(data:Array<T>) => void
-  onRejected: () => void
-  loader: { spinner: Element }
-  
+  root: string;
+  query: string;
+  onResolved: <T>(data: Array<T>) => void;
+  onRejected: () => void;
+  loader: { spinner: Element };
 
-  constructor({ root, query, loaderSelector, onResolved, onRejected } : IConstructor) {
+
+  constructor({
+    root,
+    query,
+    loaderSelector,
+    onResolved,
+    onRejected,
+  }: IConstructor) {
     this.root = root;
     this.query = query;
     this.onResolved = onResolved;
@@ -22,11 +28,9 @@ export default class ApiService {
     this.loader = this.getLoader(loaderSelector);
   }
 
-  getLoader(loader:string) {
+  getLoader(loader: string) {
     const spinner = document.querySelector(`${loader}`)!;
-      return { spinner };
-   
-    
+    return { spinner };
   }
 
   fetch() {
@@ -37,13 +41,15 @@ export default class ApiService {
         this.loader.spinner.classList.add("is-hidden");
         this.onResolved(response);
       })
-      .catch((response) => {
+      .catch(() => {
         this.loader.spinner.classList.add("is-hidden");
         this.onRejected();
       });
   }
 
-  onFetch<T>(response:any):Array<T> {
+
+
+  onFetch<T>(response:Response): PromiseLike<T[]> {
     if (response.ok) {
       return response.json();
     } else if (response.status === 404) {

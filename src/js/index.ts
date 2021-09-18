@@ -6,11 +6,11 @@ import countriesMarkup from "../templates/countries.hbs";
 import debounce from "lodash.debounce";
 
 type Refs = {
-  countryContainer: HTMLDivElement,
-  input: HTMLInputElement
-}
+  countryContainer: HTMLDivElement;
+  input: HTMLInputElement;
+};
 
-const refs:Refs = {
+const refs: Refs = {
   countryContainer: document.querySelector(".country")!,
   input: document.querySelector("input[data-country]")!,
 };
@@ -33,7 +33,7 @@ function getRequestedCountryInfo(ev: Event) {
   fetchRequest(name);
 }
 
-function makeMarkup<T>(data:Array<T>) {
+function makeMarkup<T>(data: Array<T>) {
   countryContainer.innerHTML = "";
 
   if (input.value.length === 0) {
@@ -73,9 +73,9 @@ function addPlaceholder() {
   );
 }
 
-function onCountryClick(ev:Event) {
+function onCountryClick(ev: Event) {
   ev.preventDefault();
-const target = ev.target as HTMLDivElement
+  const target = ev.target as HTMLDivElement;
   if (target.nodeName === "IMG" && target.parentNode) {
     const name = target.textContent;
     if (name) {
@@ -92,7 +92,7 @@ const target = ev.target as HTMLDivElement
   }
 }
 
-function fetchRequest(name:string) {
+function fetchRequest(name: string) {
   const apiService = new ApiService({
     root: "https://restcountries.eu/rest/v2/name/",
     query: name,
